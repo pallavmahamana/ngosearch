@@ -1,7 +1,7 @@
-howfrom bs4 import BeautifulSoup
+from bs4 import BeautifulSoup
 import urllib
 import sys
-import psycopg2
+from pymongo import MongoClient
 
 
 class record:
@@ -14,75 +14,74 @@ class record:
         self.address = address
         self.sectors = sectors
 
+def scrapestate(SC):
+    SCRAPE_URL = "http://ngo.india.gov.in/state_ngolist_ngo.php?records=65535&state_value="+SC
+
+    r = urllib.urlopen(SCRAPE_URL).read()
+    soup = BeautifulSoup(r)
+
+    table = soup.find("table",{"width":"100%","border":"0","align":"center","cellspacing":"0","cellpadding":"5"})
+    rows = table.findAll("tr")
+
+    statename = soup.findAll("strong")[2].text
+    statename = statename[0:statename.find("(")].strip()
+
+    cleanrows=[]
+
+    # this will clean the rows
+    for row in rows:
+        if len(row.findAll("td",{"valign":"top"})) == 6:
+            cleanrows.append(row)
 
 
-MAX_RECORDS = 65535    # this number should be set to maximum in order to remove multiple pages
+    recordlist = []
 
-SCRAPE_URL = "http://ngo.india.gov.in/state_ngolist_ngo.php?records="+str(MAX_RECORDS)+"&state_value="+sys.argv[1]
+    for row in cleanrows:
+        name = row.findAll("td")[1].text.strip()
+        str = row.findAll("td")[2].text
 
-r = urllib.urlopen(SCRAPE_URL).read()
-soup = BeautifulSoup(r)
+        cities = []
+        cp = []
+        for i in range(len(str)):
+            if str[i] == ',':
+                cp.append(i)
 
-table = soup.find("table",{"width":"100%","border":"0","align":"center","cellspacing":"0","cellpadding":"5"})
-rows = table.findAll("tr")
-
-statename = soup.findAll("strong")[2].text
-statename = statename[0:statename.find("(")].strip()
-
-cleanrows=[]
-
-# this will clean the rows
-for row in rows:
-    if len(row.findAll("td",{"valign":"top"})) == 6:
-        cleanrows.append(row)
+        for i in cp:
+            pos = str.rfind(')',0,i)
+            if pos != -1:
+                cities.append(str[str.rfind(')',0,i)+1:i].strip())
 
 
-recordlist = []
+        cities = filter(None,list(set(cities)))
 
-for row in cleanrows:
-    name = row.findAll("td")[1].text.strip()
+        regno = []
+        str = row.findAll("td")[2].text.strip()
 
+        regno.append(str[:str.find("(")].strip())
 
+        while str.find(statename) != -1:
+            str = str[str.find(statename)+len(statename):]
+            regno.append(str[0:str.find("(")].strip())
 
+        regno = filter(None,regno)
 
-    #regno = row.findAll("td")[2].text.strip()
-    #city = row.findAll("td")[1].text.strip()
-    #state = row.findAll("td")[1].text.strip()
+        chief = row.findAll("td")[3].text.strip()
+        address = row.findAll("td")[4].text.strip()
+        sectors = row.findAll("td")[5].text.strip().split(',')
 
-    str = row.findAll("td")[2].text
+        obj = record(name,regno,cities,statename,chief,address,sectors)
+        recordlist.append(obj)
 
-    cities = []
-    cp = []
-    for i in range(len(str)):
-        if str[i] == ',':
-            cp.append(i)
+    return recordlist
 
-    for i in cp:
-        pos = str.rfind(')',0,i)
-        if pos != -1:
-            cities.append(str[str.rfind(')',0,i)+1:i].strip())
+client = MongoClient()
+db = client.test
+statecode = ["AN","AP","AR","AS","BR","CH","CG","DN","DD","DL","GA","GJ","HR","HP","JK","JH","KA","KL",
+"LD","MP","MH","MN","ML","MZ","NL","OR","PY","PB","RJ","SK","TN","TR","UP","UA","WB"]
 
-
-    cities = filter(None,list(set(cities)))
-
-    regno = []
-    str = row.findAll("td")[2].text.strip()
-
-    regno.append(str[:str.find("(")].strip())
-
-    while str.find(statename) != -1:
-        str = str[str.find(statename)+len(statename):]
-        regno.append(str[0:str.find("(")].strip())
-
-    regno = filter(None,regno)
-
-
-
-
-    chief = row.findAll("td")[3].text.strip()
-    address = row.findAll("td")[4].text.strip()
-    sectors = row.findAll("td")[5].text.strip().split(',')
-
-    obj = record(name,regno,cities,statename,chief,address,sectors)
-    recordlist.append(obj)
-
+for SC in statecode:
+    records = scrapestate(SC)
+    
+    for i in records:
+        db.ngodata.insert_one(i.__dict__)
+    print len(records),"records written for",SC
