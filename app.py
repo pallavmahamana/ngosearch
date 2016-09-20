@@ -1,22 +1,36 @@
-from flask import Flask
+from flask import Flask,render_template,jsonify
 from flask.ext.pymongo import PyMongo
-from bson.json_util import dumps
+from bson import json_util
+import json
 
-app = Flask(__name__)
+app = Flask(__name__,static_url_path='')
 app.config['MONGO_DBNAME'] = 'test'
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/test'
 
 mongo = PyMongo(app)
 
+def toJson(data):
+    return json.dumps(data, default=json_util.default)
+
+
+
+@app.route('/')
+def root():
+    return app.send_static_file('index.html')
+
 @app.route('/ngoname/<ngoname>')
 def ngoname(ngoname):
-    ngo = mongo.db.ngodata.find_one({"name":{"$regex": ngoname}})
-    return dumps(ngo)
+    ngo = mongo.db.ngodata.find({"name":{"$regex": ngoname}})
+    obj = [x for x in ngo]
+    return toJson(obj)
+    # for i in range(len(obj)):
+    #     obj[i].pop('_id')
+    # return jsonify(obj)
 
 
 @app.route('/regno/<regnum>')
 def regno(regnum):
-    ngo = mongo.db.ngodata.find_one({"regno":{"$regex": regnum}})
+    ngo = mongo.db.ngodata.find({"regno":{"$regex": regnum}})
     return dumps(ngo)
 
 
