@@ -31,7 +31,7 @@
 * {
     margin:0;
     padding:0;
-    font:12pt Arial;
+    font:10pt Arial;
 }
 
 body {
@@ -116,6 +116,10 @@ body {
     text-decoration: none;
     display: block;
 }
+table, th, td {
+   border: 1px solid white;
+}
+
 
 /* Change color of dropdown links on hover */
 .dropdown-content a:hover {background-color: #f1f1f1}
@@ -155,31 +159,58 @@ body {
 
     <div class="field" id="searchform">
     <div class="dropdown">
-  <button class="dropbtn">NGO Name</button>
+  <button class="dropbtn" id="searchtype">ngoname</button>
   <div class="dropdown-content">
-      <a>NGO Name</a>
-      <a>Reg. No.</a>
-    <a>State</a>
-    <a>City</a>
-    <a>Sector</a>
+      <a ng-click="changeparam('ngoname')">ngoname</a>
+      <a  ng-click="changeparam('regno')">regno</a>
+    <a  ng-click="changeparam('state')">state</a>
+    <a  ng-click="changeparam('city')">city</a>
+    <a  ng-click="changeparam('sector')">sector</a>
   </div>
 </div>
-  <input type="text" id="searchterm" placeholder="Start Searching ..." ng-model="searchvalue" />
+  <input type="text" id="searchterm" placeholder="{{placeholder}}" ng-model="searchvalue" />
   <button type="button" id="search" ng-click="searchngo(searchvalue);">Find!</button>
 </div>
 
+<table class="table table-inverse" style="background-color:#010A10;color:white;">
+  <thead>
+    <tr>
+      <th>Reg. No.</th>
+      <th>NGO Name</th>
+      <th>Chief</th>
+      <th>Address</th>
+      <th>State</th>
+      <th>City</th>
+      <th>Sectors</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="x in ngos">
+      <td style="padding:25px;">
+        <ul ng-repeat="y in x.regno" style="list-style-type:none;">
+        <li>{{y}}</li>
+        </ul>
+      </td>
+      <td>{{ x.name }}</td>
+      <td>{{ x.chief }}</td>
+      <td>{{ x.address }}</td>
+      <td>{{ x.state }}</td>
+      <td style="padding:25px;">
+        <ul ng-repeat="y in x.city" style="list-style-type:none;">
+        <li>{{y}}</li>
+        </ul>
 
-<table>
-  <tr ng-repeat="x in ngos" style="color:yellow;">
-    <td>{{ x.name }}</td>
-    <td>{{ x.regno }}</td>
-    <td>{{ x.chief }}</td>
-    <td>{{ x.address }}</td>
-    <td>{{ x.state }}</td>
-    <td>{{ x.city }}</td>
-    <td>{{ x.sectors }}</td>
-  </tr>
+      </td>
+      <td  style="padding:25px;">
+        <ul ng-repeat="y in x.sectors">
+        <li>{{y}}</li>
+        </ul>
+
+      </td>
+    </tr>
+  </tbody>
 </table>
+
 
 
 
