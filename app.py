@@ -21,7 +21,7 @@ def root():
 
 @app.route('/ngoname/<ngoname>')
 def ngoname(ngoname):
-    ngo = mongo.db.ngodata.find({"name":{'$regex':ngoname ,"$options": "-i"}})
+    ngo = mongo.db.ngodata.find({"name":{'$regex': re.compile(r'\b{}\b'.format(ngoname),re.IGNORECASE) ,"$options": "-i"}})
     obj = [x for x in ngo]
     return toJson(obj)
 
@@ -50,7 +50,7 @@ def state(statename):
 
 @app.route('/sector/<sectorname>')
 def sector(sectorname):
-    ngo = mongo.db.ngodata.find({"sectors":{"$regex": sectorname}})
+    ngo = mongo.db.ngodata.find({"sectors":{"$regex": sectorname,"$options": "-i"}})
     obj = [x for x in ngo]
     return toJson(obj)
 
