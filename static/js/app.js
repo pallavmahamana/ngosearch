@@ -1,4 +1,4 @@
-var app = angular.module('ngoapp',[]);
+var app = angular.module('ngoapp',['angular-loading-bar', 'ngAnimate']);
 
 app.controller('NgoController',function($scope,$http){
     $scope.searchparam = "ngoname";
