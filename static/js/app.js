@@ -8,6 +8,7 @@ app.controller('NgoController',function($scope,$http){
   $scope.changeparam = function(param){
     $scope.searchparam = param;
     $('#searchtype').html(param);
+    $scope.searchvalue = "";
 
 
     switch (param) {

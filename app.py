@@ -21,14 +21,14 @@ def root():
 
 @app.route('/ngoname/<ngoname>')
 def ngoname(ngoname):
-    ngo = mongo.db.ngodata.find({"name":{'$regex': re.compile(r'\b{}\b'.format(ngoname),re.IGNORECASE) ,"$options": "-i"}})
+    ngo = mongo.db.ngodata.find({"name":{'$regex': re.compile(r'\b{}\b'.format(ngoname),re.IGNORECASE) ,"$options": "-i"}},{'_id': False})
     obj = [x for x in ngo]
     return toJson(obj)
 
 
 @app.route('/regno/<regnum>')
 def regno(regnum):
-    ngo = mongo.db.ngodata.find({"regno":{"$regex": regnum}})
+    ngo = mongo.db.ngodata.find({"regno":{"$regex": regnum}},{'_id': False})
     obj = [x for x in ngo]
     return toJson(obj)
 
@@ -36,21 +36,22 @@ def regno(regnum):
 
 @app.route('/city/<cityname>')
 def city(cityname):
-    ngo = mongo.db.ngodata.find({"city":{"$regex": cityname,"$options": "-i"}})
+    ngo = mongo.db.ngodata.find({"city":{"$regex": cityname,"$options": "-i"}},{'_id': False})
     obj = [x for x in ngo]
     return toJson(obj)
 
 
 @app.route('/state/<statename>')
 def state(statename):
-    ngo = mongo.db.ngodata.find({"state":{"$regex": statename,"$options": "-i"}})
+    ngo = mongo.db.ngodata.find({"state":{"$regex": statename,"$options": "-i"}},{'_id': False})
     obj = [x for x in ngo]
     return toJson(obj)
 
 
 @app.route('/sector/<sectorname>')
 def sector(sectorname):
-    ngo = mongo.db.ngodata.find({"sectors":{"$regex": sectorname,"$options": "-i"}})
+    #ngo = mongo.db.ngodata.find({"sectors":{"$regex": sectorname,"$options": "-i"}})
+    ngo = mongo.db.ngodata.find({'sectors':{'$regex': re.compile(r'\b{}\b'.format(sectorname),re.IGNORECASE) ,"$options": "-i"}},{'_id': False})
     obj = [x for x in ngo]
     return toJson(obj)
 
