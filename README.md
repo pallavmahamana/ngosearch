@@ -7,5 +7,5 @@ Simple Web Application that can be used to search NGOs listed on NGO-DARPAN (htt
 * Uses AngularJS in frontend
 
 
-HAS SCOPE OF LOTS OF IMPROVEMENTS
+HAS SCOPE FOR LOTS OF IMPROVEMENTS
 
