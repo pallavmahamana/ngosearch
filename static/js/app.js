@@ -5,11 +5,21 @@ app.controller('NgoController',function($scope,$http){
     $scope.searchvalue ="";
     $scope.placeholder="Search by NGO Name";
 
+
+    $scope.curPage = 0;
+    $scope.pageSize = 10;
+
+    $scope.numberOfPages = function()
+    {
+      return Math.ceil($scope.ngos.length / $scope.pageSize);
+    };
+
+
+
   $scope.changeparam = function(param){
     $scope.searchparam = param;
     $('#searchtype').html(param);
     $scope.searchvalue = "";
-
 
     switch (param) {
 
