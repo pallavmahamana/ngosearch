@@ -36,14 +36,14 @@ def regno(regnum):
 
 @app.route('/city/<cityname>')
 def city(cityname):
-    ngo = mongo.db.ngodata.find({"city":{"$regex": cityname,"$options": "-i"}},{'_id': False})
+    ngo = mongo.db.ngodata.find({"city":{"$regex": re.compile(r'\b{}\b'.format(cityname),re.IGNORECASE) ,"$options": "-i"}},{'_id': False})
     obj = [x for x in ngo]
     return toJson(obj)
 
 
 @app.route('/state/<statename>')
 def state(statename):
-    ngo = mongo.db.ngodata.find({"state":{"$regex": statename,"$options": "-i"}},{'_id': False})
+    ngo = mongo.db.ngodata.find({"state":{"$regex": re.compile(r'\b{}\b'.format(statename),re.IGNORECASE) ,"$options": "-i"}},{'_id': False})
     obj = [x for x in ngo]
     return toJson(obj)
 
