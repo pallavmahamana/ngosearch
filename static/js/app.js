@@ -4,16 +4,9 @@ app.controller('NgoController',function($scope,$http){
     $scope.searchparam = "ngoname";
     $scope.searchvalue ="";
     $scope.placeholder="Search by NGO Name";
-
-
-    $scope.curPage = 0;
-    $scope.pageSize = 10;
-
-    $scope.numberOfPages = function()
-    {
-      return Math.ceil($scope.ngos.length / $scope.pageSize);
-    };
-
+    $scope.page = 1;
+    $scope.page_count = 1;
+    $scope.pages=_.range(1,$scope.page_count);
 
 
   $scope.changeparam = function(param){
@@ -36,18 +29,19 @@ app.controller('NgoController',function($scope,$http){
         break;
 
       default:
-
     }
-
-
   } ;
 
   $scope.searchngo = function(searchvalue) {
     $http({
   method: 'GET',
-  url: '/'+$scope.searchparam+'/'+searchvalue
+  url: '/'+$scope.searchparam+'/'+searchvalue+'?limit=20&page='+$scope.page
 }).then(function successCallback(response) {
         $scope.ngos=response.data;
+        $scope.page_count = parseInt($scope.ngos[0]._metadata.page_count);
+        $scope.pages = _.range(1,$scope.page_count+1);
+        $scope.ngos.splice(0,1);
+
   }, function errorCallback(response) {
 
   });};

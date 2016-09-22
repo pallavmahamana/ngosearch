@@ -38,8 +38,12 @@ def ngoname(ngoname):
     else:
         res = splitdata(obj,int(limit))
         for i in range(len(res)):
-            res[i] = [{"_metadata":{"page":page,"page_count":str(len(res)-2),"limit":limit}}] + res[i]
-        return toJson(res[int(page)+1])
+            res[i] = [{"_metadata":{"page":page,"page_count":str(len(res)),"limit":limit}}] + res[i]
+        try:
+            return toJson(res[int(page)-1])
+        except IndexError:
+            return toJson([])
+
 
 @app.route('/regno/<regnum>')
 def regno(regnum):
@@ -52,8 +56,12 @@ def regno(regnum):
     else:
         res = splitdata(obj,int(limit))
         for i in range(len(res)):
-            res[i] = [{"_metadata":{"page":page,"page_count":str(len(res)-2),"limit":limit}}] + res[i]
-        return toJson(res[int(page)+1])
+            res[i] = [{"_metadata":{"page":page,"page_count":str(len(res)),"limit":limit}}] + res[i]
+        try:
+            return toJson(res[int(page)-1])
+        except IndexError:
+            return toJson([])
+
 
 
 @app.route('/city/<cityname>')
@@ -67,8 +75,12 @@ def city(cityname):
     else:
         res = splitdata(obj,int(limit))
         for i in range(len(res)):
-            res[i] = [{"_metadata":{"page":page,"page_count":str(len(res)-2),"limit":limit}}] + res[i]
-        return toJson(res[int(page)+1])
+            res[i] = [{"_metadata":{"page":page,"page_count":str(len(res)),"limit":limit}}] + res[i]
+        try:
+            return toJson(res[int(page)-1])
+        except IndexError:
+            return toJson([])
+
 
 
 @app.route('/state/<statename>')
@@ -82,8 +94,12 @@ def state(statename):
     else:
         res = splitdata(obj,int(limit))
         for i in range(len(res)):
-            res[i] = [{"_metadata":{"page":page,"page_count":str(len(res)-2),"limit":limit}}] + res[i]
-        return toJson(res[int(page)+1])
+            res[i] = [{"_metadata":{"page":page,"page_count":str(len(res)),"limit":limit}}] + res[i]
+        try:
+            return toJson(res[int(page)-1])
+        except IndexError:
+            return toJson([])
+
 
 @app.route('/sector/<sectorname>')
 def sector(sectorname):
@@ -96,8 +112,12 @@ def sector(sectorname):
     else:
         res = splitdata(obj,int(limit))
         for i in range(len(res)):
-            res[i] = [{"_metadata":{"page":page,"page_count":str(len(res)-2),"limit":limit}}] + res[i]
-        return toJson(res[int(page)+1])
+            res[i] = [{"_metadata":{"page":page,"page_count":str(len(res)),"limit":limit}}] + res[i]
+        try:
+            return toJson(res[int(page)-1])
+        except IndexError:
+            return toJson([])
+
 
 
 if __name__ == '__main__':
