@@ -6,6 +6,6 @@ Simple Web Application that can be used to search NGOs listed on NGO-DARPAN (htt
 * Uses Flask for Backend and Serving REST API.
 * Uses AngularJS in frontend
 
+Mongo Dump for the scraped data has been included in dump folder as on 18-09-2016. Use mongorestore to restore data to your mongodb.
 
-HAS SCOPE FOR LOTS OF IMPROVEMENTS
-
+HAS SCOPE FOR LOTS OF IMPROVEMENTS | I DONT THINK IS BEST PIECE OF CODE
