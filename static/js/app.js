@@ -31,6 +31,9 @@ app.controller('NgoController',function($scope,$http){
       default:
     }
   } ;
+  $scope.setpagestart =function(){
+    $scope.page = 1;
+  };
 
   $scope.searchngo = function(searchvalue) {
     $http({

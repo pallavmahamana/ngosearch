@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Search NGO that are listed NGO DARPAN under government NGO-Partnership System">
+    <meta name="author" content="Pallav Mahamana">
 
     <title>NGO-Search</title>
 
@@ -168,7 +168,7 @@ table, th, td {
   </div>
 </div>
   <input type="text" id="searchterm" placeholder="{{placeholder}}" ng-model="searchvalue" />
-  <button type="button" id="search" ng-click="searchngo(searchvalue);$scope.page=1;">Find!</button>
+  <button type="button" id="search" ng-click="setpagestart();searchngo(searchvalue);">Find!</button>
 </div>
 
 <select ng-model="page" ng-options="page for page in pages" ng-change="searchngo(searchvalue);" style="margin:0 auto;display:block;">
@@ -228,7 +228,7 @@ table, th, td {
     <!-- AngularJS Javascript -->
     <script src="js/main.js"></script>
     <script src="js/angular.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-animate.min.js"></script>
 
     <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.css' type='text/css' media='all' />
     <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.js'></script>

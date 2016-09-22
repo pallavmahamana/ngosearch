@@ -5,8 +5,8 @@ import re
 import json
 
 app = Flask(__name__,static_url_path='')
-app.config['MONGO_DBNAME'] = 'test'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/test'
+app.config['MONGO_DBNAME'] = 'test'  #set mongo database name here 
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/test' # set mongo connection string
 
 
 mongo = PyMongo(app)
