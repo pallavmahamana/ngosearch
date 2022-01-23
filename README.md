@@ -8,4 +8,4 @@ Simple Web Application that can be used to search NGOs listed on NGO-DARPAN (htt
 
 Mongo Dump for the scraped data has been included in dump folder as on 18-09-2016. Use mongorestore to restore data to your mongodb.
 
-NOT MAINTAINING - - - - - - - - - - - -- - NOT MAINTAINING  - - - -- - - - - - - - -- - --- ---- -- --- - -- - - - - -
+-------- - - - - - - - - - - -- - NOT MAINTAINING  - - - -- - - - - - - - -- - --- ---- -- --- - -- 
